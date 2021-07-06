@@ -63,33 +63,35 @@ const Login = (props) => {
         />
 
         <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              onBlur={onBlurUsername}
-            />
-          </div>
+          <div>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                onBlur={onBlurUsername}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              onBlur={onBlurPassword}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                onBlur={onBlurPassword}
+              />
+            </div>
 
-          <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
-              <span>Login</span>
-            </button>
+            <div className="form-group" style={{ marginTop: "14px" }}>
+              <button className="btn btn-primary btn-block" disabled={loading}>
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
+                <span>Login</span>
+              </button>
+            </div>
           </div>
 
           {message && (
@@ -100,6 +102,9 @@ const Login = (props) => {
             </div>
           )}
         </form>
+        <p style={{ marginTop: "12px" }}>
+          Don't have an account? <a href="/user/register">Register Now</a>
+        </p>
       </div>
     </div>
   );

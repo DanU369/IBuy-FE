@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { axios } from "../axios/axios";
 
 const ProductCatalog = () => {
@@ -12,7 +12,6 @@ const ProductCatalog = () => {
     const response = await axios
       .get("/product")
       .catch((err) => console.log("Error:", err));
-    console.log(response.data);
     if (response && response.data) {
       setProducts(response.data);
     }
@@ -27,13 +26,38 @@ const ProductCatalog = () => {
               <div className="col mb-5" key={product.id}>
                 <div className="card h-100">
                   {/* <!-- Product image--> */}
-                  <a href={`/details/${product.id}`}>
-                    <img
-                      className="card-img-top"
-                      src={product.imageUrl}
-                      alt="..."
-                    />
-                  </a>
+                  {/* <div style={{maxHeight:"300px",maxWidth:"450px"}}> */}
+                  <div style={{ display: "inline-block"}}>
+                    <div
+                      style={{
+                        width: "218px",
+                        height: "300px",
+                        verticalAlign: "middle",
+                        textAlign: "center",
+                        display: "table-cell"
+                      }}
+                    >
+                      <a href={`/details/${product.id}`}>
+                        <img
+                          className="card-img-top"
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            display: "block",
+                            margin: "0 auto",
+                          }}
+                          // style={{
+                          //   width: "218px",
+                          //   height: "300px",
+                          //   maxWidth: "100%",
+                          // }}
+                          src={product.imageUrl}
+                          alt="..."
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  {/* </div> */}
                   {/* <!-- Product details--> */}
                   <div className="card-body p-4">
                     <div className="text-center">

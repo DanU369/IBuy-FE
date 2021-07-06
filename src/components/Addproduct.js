@@ -1,54 +1,127 @@
-import React from 'react'
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { axios } from "../axios/axios";
+import authHeader from "../services/AuthHeader";
 
-const Addproduct = () => {
-    return (
-      <div className="col-md-12">
+import { productSchema } from "../validations/ProductValidation";
+
+const Addproduct = (props) => {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(productSchema),
+    mode: "onChange",
+  });
+
+  const handleAdd = async (form, e) => {
+    e.preventDefault();
+
+    console.log(authHeader());
+
+    let userId=JSON.parse(localStorage.getItem("user")).id;
+
+    await axios
+      .post(
+        `/product/add/${userId}`,
+        {
+          name: e.target[0].value,
+          category: e.target[1].value,
+          description: e.target[2].value,
+          price: e.target[3].value,
+          imageUrl: e.target[4].value,
+        },
+        { headers: authHeader() }
+      )
+      .then(() => {
+        props.history.push("/");
+        window.location.reload();
+      })
+      .catch((err) => console.log("Error:", err));
+  };
+
+  return (
+    <div className="col-md-12">
+      {localStorage.getItem("user") == null ? (
+        <p
+          style={{
+            fontSize:"36px",
+            marginTop: "20px",
+            marginBottom: "80%",
+            textAlign: "center",
+          }}
+        >
+          You Must Be <a href="/user/login">Logged In</a>, In Order To Post A
+          Product
+        </p>
+      ) : (
         <div className="card card-container">
-          <form >
+          <form onSubmit={handleSubmit(handleAdd)}>
             <div>
               <div className="form-group">
-                <label htmlFor="name">Product Name</label>
+                <label htmlFor="productName">Product Name</label>
                 <input
                   type="text"
                   className="form-control"
                   name="name"
-                  //   {...register("username")}
+                  {...register("productName")}
                 />
-                {/* <p
-                  style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                  }}
                 >
-                  {errors.username?.message}
-                </p> */}
+                  {errors.productName?.message}
+                </p>
               </div>
 
               <div className="form-group">
                 <label htmlFor="category">Category</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <select
                   name="category"
-                  //   {...register("fullName")}
-                />
-                {/* <p
-                  style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+                  className="form-select"
+                  {...register("category")}
                 >
-                  {errors.fullName?.message}
-                </p> */}
+                  <option value="Laptop">Laptop</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Tablet">Tablet</option>
+                  <option value="Book">Book</option>
+                </select>
+
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {errors.category?.message}
+                </p>
               </div>
+              {/* {newCategory != "" && <p>{newCategory}</p>} */}
 
               <div className="form-group">
                 <label htmlFor="description">Description</label>
-                <input
-                  type="textarea"
+                <textarea
                   className="form-control"
                   name="description"
-                  //   {...register("email")}
+                  rows="3"
+                  {...register("description")}
                 />
-                {/* <p
-                  style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                  }}
                 >
-                  {errors.email?.message}
-                </p> */}
+                  {errors.description?.message}
+                </p>
               </div>
 
               <div className="form-group">
@@ -57,42 +130,43 @@ const Addproduct = () => {
                   type="text"
                   className="form-control"
                   name="price"
-                  //   {...register("phoneNumber")}
+                  {...register("price")}
                 />
-                {/* <p
-                  style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                  }}
                 >
-                  {errors.phoneNumber?.message}
-                </p> */}
-              </div>
-
-              <div className="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                <div className="tm-product-img-dummy mx-auto">
-                  <i
-                    className="fas fa-cloud-upload-alt tm-upload-icon"
-                    // onclick="document.getElementById('fileInput').click();"
-                  ></i>
-                </div>
-                <div className="custom-file mt-3 mb-3">
-                  <input id="fileInput" type="file" style={{"display":"none"}} />
-                  <input
-                    type="button"
-                    className="btn btn-primary btn-block mx-auto"
-                    value="UPLOAD PRODUCT IMAGE"
-                    // onclick="document.getElementById('fileInput').click();"
-                  />
-                </div>
+                  {errors.price?.message}
+                </p>
               </div>
 
               <div className="form-group">
+                <label htmlFor="imageUrl">Image URL</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="imageUrl"
+                  {...register("imageUrl")}
+                />
+                <p
+                  style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+                >
+                  {errors.imageUrl?.message}
+                </p>
+              </div>
+
+              <div className="form-group" style={{ marginTop: "14px" }}>
                 <button
                   className="btn btn-primary btn-block"
-                //   disabled={loading}
+                  //   disabled={loading}
                 >
                   {/* {loading && (
                     <span className="spinner-border spinner-border-sm"></span>
                   )} */}
-                  <span>Sign Up</span>
+                  <span>Add Product</span>
                 </button>
               </div>
             </div>
@@ -106,8 +180,9 @@ const Addproduct = () => {
             )} */}
           </form>
         </div>
-      </div>
-    );
-}
+      )}
+    </div>
+  );
+};
 
-export default Addproduct
+export default Addproduct;

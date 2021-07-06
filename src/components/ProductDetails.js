@@ -4,27 +4,26 @@ import { axios } from "../axios/axios";
 
 const ProductDetails = () => {
   const param = useParams();
+  const [showAll, setShowApll] = useState(false);
   const [details, setDetails] = useState(0);
   const [user, setUser] = useState(0);
+
+  // const trimmedDesc="";
 
   useEffect(() => {
     getDetails();
   }, []);
 
-  
   const getDetails = async () => {
     const response = await axios
-    .get(`/product/${param.id}`)
-    .catch((err) => console.log("Error:", err));
-    console.log(response.data);
-    console.log(response.data.user.id)
-    if (response && response.data) {
-      setDetails(response.data);
-      setUser(response.data.user)
+      .get(`/product/${param.id}`)
+      .catch((err) => console.log("Error:", err));
+      if (response && response.data) {
+        setDetails(response.data);
+        setUser(response.data.user);
+        // const trimmedDesc = details.description.substring(0, 200);
     }
   };
-  
-
 
   return (
     <section className="py-5">
@@ -50,7 +49,36 @@ const ProductDetails = () => {
             <div className="fs-5 mb-5">
               <span>${details.price}</span>
             </div>
-            <p className="lead">{details.description}</p>
+
+            <p className="lead" style={{ whiteSpace: "pre-line" }}>
+                 {details.description}
+               </p>
+
+            {/* {!showAll ? (
+              <p className="lead" style={{ whiteSpace: "pre-line" }}>
+                {trimmedDesc}
+                <button
+                  className="btn btn-link"
+                  onClick={() => {
+                    setShowApll(true);
+                  }}
+                >
+                  Read more ...
+                </button>
+              </p>
+            ) : (
+              <p className="lead" style={{ whiteSpace: "pre-line" }}>
+                {details.description} + "..."
+                <button
+                  className="btn btn-link"
+                  onClick={() => {
+                    setShowApll(false);
+                  }}
+                >
+                  Read less
+                </button>
+              </p>
+            )} */}
             <div className="d-flex">
               <a className="btn btn-outline-dark mt-auto" href="#">
                 <i className="bi-cart-fill me-1"></i>

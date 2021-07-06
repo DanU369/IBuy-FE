@@ -8,9 +8,11 @@ import AuthService from "../services/Auth.service";
 const Register = (props) => {
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(userSchema),
+    mode: "onChange"
   });
 
   const [loading, setLoading] = useState(false);
@@ -20,7 +22,7 @@ const Register = (props) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (form,e) => {
     e.preventDefault();
 
     let username = e.target[0].value;
@@ -78,94 +80,92 @@ const Register = (props) => {
           className="profile-img-card"
         />
 
-        <form onSubmit={handleRegister}>
-          <div>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                name="username"
-                {...register("username")}
-              />
-              <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
-                {errors.username?.message}
-              </p>
-            </div>
+        <form onSubmit={handleSubmit(handleRegister)}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              name="username"
+              {...register("username")}
+            />
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              {errors.username?.message}
+            </p>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="fullName">Full Name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="fullName"
-                {...register("fullName")}
-              />
-              <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
-                {errors.fullName?.message}
-              </p>
-            </div>
+          <div className="form-group">
+            <label htmlFor="fullName">Full Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="fullName"
+              {...register("fullName")}
+            />
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold"}}>
+              {errors.fullName?.message}
+            </p>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                className="form-control"
-                name="email"
-                {...register("email")}
-              />
-              <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
-                {errors.email?.message}
-              </p>
-            </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              className="form-control"
+              name="email"
+              {...register("email")}
+            />
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              {errors.email?.message}
+            </p>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <input
-                type="text"
-                className="form-control"
-                name="phoneNumber"
-                {...register("phoneNumber")}
-              />
-              <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
-                {errors.phoneNumber?.message}
-              </p>
-            </div>
+          <div className="form-group">
+            <label htmlFor="phoneNumber">Phone Number</label>
+            <input
+              type="text"
+              className="form-control"
+              name="phoneNumber"
+              {...register("phoneNumber")}
+            />
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              {errors.phoneNumber?.message}
+            </p>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                {...register("password")}
-              />
-              <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
-                {errors.password?.message}
-              </p>
-            </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              name="password"
+              {...register("password")}
+            />
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              {errors.password?.message}
+            </p>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="confirmPassword"
-                {...register("confirmPassword")}
-              />
-              <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
-                {errors.confirmPassword && "Passwords should match"}
-              </p>
-            </div>
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              className="form-control"
+              name="confirmPassword"
+              {...register("confirmPassword")}
+            />
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              {errors.confirmPassword && "Passwords should match"}
+            </p>
+          </div>
 
-            <div className="form-group">
-              <button className="btn btn-primary btn-block" disabled={loading}>
-                {loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span>Sign Up</span>
-              </button>
-            </div>
+          <div className="form-group">
+            <button className="btn btn-primary btn-block" disabled={loading}>
+              {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
+              <span>Sign Up</span>
+            </button>
           </div>
 
           {message && (

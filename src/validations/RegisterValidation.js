@@ -16,6 +16,7 @@ export const userSchema = yup.object().shape({
       "Your password should contain at least 1 capital letter"
     )
     .matches(/.*[0-9].*/, "Your password should contain at least 1 number")
+    .min(8,"Password should be at least 8 characters long")
     .required("Password is required"),
   confirmPassword: yup.string().oneOf([yup.ref("password"), null]),
   fullName: yup.string().required("Fullname is required"),
@@ -25,6 +26,6 @@ export const userSchema = yup.object().shape({
     .required("Email is required"),
   phoneNumber: yup
     .string()
-    .matches(/^[0-9]{10}$/, "Invalid phone number \n Ex:0722xxxxxx")
+    .matches(/^[0-9]{10}$/, "Invalid Phone Number")
     .required("Phone Number is required"),
 });

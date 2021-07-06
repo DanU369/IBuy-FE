@@ -14,13 +14,21 @@ const NavBar = () => {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container px-4 px-lg-5">
-          <a className="navbar-brand" href="/">
+          <a className="navbar-brand" href="/" style={{ fontSize: "36px" }}>
             IBuy
           </a>
-          {localStorage.getItem("user") != null && (
-            <p style={{ marginTop: "20px" }}>
+          {localStorage.getItem("user") != null ? (
+            <p
+              style={{
+                marginTop: "20px",
+                marginLeft: "31%",
+                marginRight: "31%",
+              }}
+            >
               Welcome {AuthService.getCurrentUser().fullName}
             </p>
+          ) : (
+            <p style={{ marginLeft: "75%" }}></p>
           )}
 
           <button
@@ -34,79 +42,65 @@ const NavBar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent" >
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-              {/* <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  id="navbarDropdown"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Shop
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ml-auto me-auto mb-2 mb-lg-0 ms-lg-4">
+              {/* <li className="nav-item ml-auto">
+                <a className="nav-link">
+                  <button className="btn btn-outline-dark" type="submit">
+                    <i className="bi-cart-fill me-1"></i>
+                    Saved Products
+                    <span className="badge bg-dark text-white ms-1 rounded-pill">
+                      0
+                    </span>
+                  </button>
                 </a>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+              </li> */}
+              {localStorage.getItem("user") != null ? (
+                <React.Fragment>
                   <li>
-                    <a className="dropdown-item" href="#!">
-                      All Products
+                    <a
+                      className="nav-link btn btn-primary"
+                      href="/product/add"
+                      style={{ color: "white", marginTop: "6%" }}
+                    >
+                      Add Product
                     </a>
                   </li>
-                  <li>
-                    <hr className="dropdown-divider" />
+                  <li style={{ marginLeft: "5px" }}>
+                    <a
+                      className="nav-link btn btn-danger"
+                      onClick={handleLogout}
+                      href="/"
+                      style={{ color: "white", marginTop: "10%" }}
+                    >
+                      Logout
+                    </a>
                   </li>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
                   <li>
-                    <a className="dropdown-item" href="#!">
-                      Popular Items
+                    <a
+                      className="nav-link btn btn-success"
+                      href="/user/login"
+                      style={{ color: "white", marginTop: "15%" }}
+                    >
+                      Login
                     </a>
-                    </li>
-                    <li>
-                    <a className="dropdown-item" href="#!">
-                    New Arrivals
+                  </li>
+                  <li style={{ marginLeft: "5px" }}>
+                    <a
+                      className="nav-link btn btn-primary"
+                      href="/user/register"
+                      style={{ color: "white", marginTop: "12%" }}
+                    >
+                      Register
                     </a>
-                    </li>
-                  </ul>*/}
+                  </li>
+                </React.Fragment>
+              )}
             </ul>
-            <form className="d-flex">
-              <button className="btn btn-outline-dark" type="submit">
-                <i className="bi-cart-fill me-1"></i>
-                Cart
-                <span className="badge bg-dark text-white ms-1 rounded-pill">
-                  0
-                </span>
-              </button>
-            </form>
-            {localStorage.getItem("user") != null ? (
-              <a
-                className="nav-link"
-                onClick={handleLogout}
-                href="/"
-                style={{ color: "red" }}
-              >
-                Logout
-              </a>
-            ) : (
-              <React.Fragment>
-              <a
-                className="nav-link"
-                href="/user/login"
-                style={{ color: "red" }}
-              >
-                Login
-              </a>
-              <a
-                className="nav-link"
-                href="/user/register"
-                style={{ color: "red" }}
-              >
-                Register
-              </a>
-              </React.Fragment>
-            )}
           </div>
-
-          {/* </div> */}
         </div>
       </nav>
     </div>
